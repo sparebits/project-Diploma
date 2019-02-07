@@ -39,9 +39,11 @@ public class LoginConfig extends WebSecurityConfigurerAdapter {
 
 	    @Override
 	    protected void configure(HttpSecurity http) throws Exception {
+	    	// In the future, /addStock will require login. For testing purposes now it is excluded from the list of pages 
+	    	// that require login
 	        http
 	                .authorizeRequests()
-	                    .antMatchers("/","/welcome","/signup","/addCompany","/css/**","/js/**","/img/**").permitAll()
+	                    .antMatchers("/","/welcome","/signup","/addCompany","/css/**","/js/**","/img/**","/addStock","/addStockResult").permitAll()
 	                    .anyRequest().authenticated()
 	                    .and()
 	                .formLogin()

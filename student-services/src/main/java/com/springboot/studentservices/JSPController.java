@@ -15,9 +15,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.springboot.studentservices.entities.Companies;
+import com.springboot.studentservices.entities.Stock;
 import com.springboot.studentservices.entities.User;
 import com.springboot.studentservices.repositories.CompaniesRepository;
+import com.springboot.studentservices.repositories.RoleRepository;
 import com.springboot.studentservices.repositories.StockRepository;
+import com.springboot.studentservices.repositories.UserRepository;
 import com.springboot.studentservices.userservices.SecurityService;
 import com.springboot.studentservices.userservices.UserService;
 import com.springboot.studentservices.userservices.UserValidator;
@@ -33,6 +36,12 @@ public class JSPController {
 		
 		@Autowired
 		private StockRepository stockRepo;
+		
+		@Autowired
+		private UserRepository userRepo;
+		
+		@Autowired
+		private RoleRepository roleRepo;
 
 		@RequestMapping("/")
 		public String welcomePage(Map<String, Object> model) {
@@ -63,7 +72,6 @@ public class JSPController {
 		    @RequestMapping(value = "/registration", method = RequestMethod.GET)
 		    public String registration(Model model) {
 		        model.addAttribute("userForm", new User());
-
 		        return "registration";
 		    }
 
@@ -97,10 +105,7 @@ public class JSPController {
 		    public String welcome(Model model) {
 		        return "welcome";
 		    }
-		//@RequestMapping(value = "/company", method = RequestMethod.GET)
-	 //   public ModelAndView showForm() {
-	  //      return new ModelAndView("signupError", "companies", new Companies());
-	 //   }
+	
 		
 		@RequestMapping(value="/addCompany",method=RequestMethod.POST)
 		public String submit(@Valid @ModelAttribute("companies") Companies company,BindingResult result,ModelMap model) {
@@ -108,22 +113,44 @@ public class JSPController {
 				model.addAttribute("status", "<span class='text-capitalize text-danger mt-2'>Registration failed due to missing/insufficient information! Check your user data and try again!</span>");
 				return "signup";
 			}
-			//model.addAttribute("companyName", company.getCompanyName());
-	     //   model.addAttribute("bulstat", company.getBulstat());
-	      //  model.addAttribute("location", company.getLocation());
-	      //  model.addAttribute("phoneNumber", company.getPhoneNumber());
-	      //  model.addAttribute("email", company.getEmail());
-	        // Encodes password using bCrypt hashing method
-	        // On retrieval from database, password needs to be matched to plaintext password
-	     //   model.addAttribute("password",encoder.encode(company.getPassword()));
+			// Create a new user 
+			User user = new User();
 	        // Set password to its hashed equivalent
 	        // for storage in the database
-	        company.setPassword(encoder.encode(company.getPassword()));
+			String encPass = encoder.encode(company.getPassword());
+	        company.setPassword(encPass);
+	        // This is supposed to be our foreign key to the Users table...
+	        company.setUser(user);
+	        user.setPassword(encPass);
+	        user.setUsername(company.getEmail());
+	        userRepo.save(user);
 	        companyRepo.save(company);
 	        model.addAttribute("status","<span class='text-capitalize text-success mt-2'>Registration successful!</span>");
 	        // Used to reset the form 
 	        model.addAttribute("companies",new Companies());
 			return "signup";
+		}
+		
+		@RequestMapping(value="/addStock",method=RequestMethod.GET)
+		public String addStockPage(Model model) {
+			model.addAttribute("stock",new Stock());
+			return "addStock";
+		}
+		
+		
+		@RequestMapping(value="/addStockResult",method=RequestMethod.POST)
+		public String submit(@Valid @ModelAttribute("stock") Stock stock,BindingResult result,ModelMap model) {
+			if (result.hasErrors()) {
+				model.addAttribute("status", "<span class='text-capitalize text-danger mt-2'>Registration failed due to missing/insufficient information! Check your user data and try again!</span>");
+				return "addStock";
+			}
+	        // Set password to its hashed equivalent
+	        // for storage in the database
+	        stockRepo.save(stock);
+	        model.addAttribute("status","<span class='text-capitalize text-success mt-2'>Registration successful!</span>");
+	        // Used to reset the form 
+	        model.addAttribute("stock",new Stock());
+			return "addStock";
 		}
 		
 

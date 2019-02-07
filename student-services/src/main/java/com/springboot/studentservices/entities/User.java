@@ -11,8 +11,6 @@ public class User {
     private String password;
     private String passwordConfirm;
     private Set<Role> roles;
-    @OneToOne(mappedBy = "user_id")
-    private Companies company;
     
     
 
@@ -61,5 +59,10 @@ public class User {
         this.roles = roles;
     }
 
+	
+
+	
+
+	
 	
 }

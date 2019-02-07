@@ -1,1 +1,1 @@
-create database borsa
+select * from companies

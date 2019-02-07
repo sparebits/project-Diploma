@@ -27,7 +27,7 @@
             <a class="nav-link ml-3" href="/admin">Admin</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link ml-3" href="#">Contacts</a>
+           <a class="nav-link ml-3" href="/addStock">Add Stock</a>
           </li>
         </ul>
         <div class="mr-5">

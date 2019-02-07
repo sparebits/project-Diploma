@@ -30,33 +30,24 @@
             <a class="nav-link ml-3" href="/addStock">Add Stock</a>
           </li>
         </ul>
-               <div class="mr-5">
-          <form class="text-center" action="placeholder.jsp" method="post">
-            <input type="text" name="username" placeholder="Email">
-            <input type="password" name="password" placeholder="Password">
-            <button class="btn btn-primary" type="submit" name="login-submit">Login</button>
-          </form>
-        </div> 
+            
       </nav>
      </header>
      <main class="container">
      	<div class="row">
         <div class="col text-center mt-2">
-          <form:form method="POST" action="/addCompany" modelAttribute="companies">
-                    <form:input class="mt-2" type="text" placeholder="Company Name" path="companyName"/>
+          <form:form method="POST" action="/addStockResult" modelAttribute="stock">
+                    <form:input class="mt-2" type="text" autofocus="true" placeholder="Stock Name" path="stockName"/>
                     <br>
-                    <form:input class="mt-2"  type="text" placeholder="Bulstat" path="bulstat"/>
+                    <form:input class="mt-2" type="text" placeholder="Measuring Units" path="measuringUnits"/>
                     <br>
-                    <form:input class="mt-2" type="text" placeholder="Company Location" path="location"/>
+                    <form:input class="mt-2" type="text" placeholder="Quantity" path="quantity"/>
                     <br>
-                    <form:input class="mt-2" type="text" placeholder="Phone Number" path="phoneNumber"/>
+                    <form:input class="mt-2" type="number" step="0.01"  min="0" placeholder="Price Per Item" path="pricePerItem"/>
                     <br>
-                    <form:input class="mt-2" type="email" placeholder="Email" path="email"/>
-                    <br>
-                    <form:input class="mt-2" type="password" placeholder="Password" path="password"/>
+                     <form:textarea class="mt-2" placeholder="Stock Description" path="stockDesc"></form:textarea>
                     <br>
                     <input class="btn btn-primary mt-2" type="submit" value="Submit"/>
-                    
           </form:form>
           <div class="col mt-2">
              ${status}

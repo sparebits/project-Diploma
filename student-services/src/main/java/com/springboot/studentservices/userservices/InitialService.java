@@ -74,10 +74,16 @@ public class InitialService {
         stock1.getCompanies().add(company);
         stock2.getCompanies().add(company);
         
+        // Reference our user in the Companies table
+       // company.setUser(user);
+     
+        
         // Add company data to Users table
         user.setUsername(company.getEmail());
         user.setPassword(encPass);
         userRepo.save(user);
+        
+   
         
         // Save the user data to the Company table
         companyRepo.save(company);
