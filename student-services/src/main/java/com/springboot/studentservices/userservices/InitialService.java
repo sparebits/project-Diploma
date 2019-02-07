@@ -75,7 +75,7 @@ public class InitialService {
         stock2.getCompanies().add(company);
         
         // Reference our user in the Companies table
-       // company.setUser(user);
+        company.setUser(user);
      
         
         // Add company data to Users table
