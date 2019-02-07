@@ -11,6 +11,10 @@ public class User {
     private String password;
     private String passwordConfirm;
     private Set<Role> roles;
+    @OneToOne(mappedBy = "user_id")
+    private Companies company;
+    
+    
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -56,4 +60,6 @@ public class User {
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
+
+	
 }

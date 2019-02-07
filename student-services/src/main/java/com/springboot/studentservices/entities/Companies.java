@@ -13,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 
@@ -37,8 +38,9 @@ public class Companies {
 	private String email;
 	@Column(name="password",nullable=false)
 	private String password;
-	@OneToOne
-	private User users;
+	@OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+	private User user;
 	
 	
 	@ManyToMany(fetch = FetchType.LAZY,
@@ -133,6 +135,14 @@ public class Companies {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 }
