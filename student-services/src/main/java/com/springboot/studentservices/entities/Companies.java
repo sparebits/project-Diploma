@@ -38,7 +38,7 @@ public class Companies {
 	private String email;
 	@Column(name="password",nullable=false)
 	private String password;
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
 	private User user;
 	
