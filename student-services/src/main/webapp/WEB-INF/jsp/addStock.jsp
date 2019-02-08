@@ -30,7 +30,15 @@
             <a class="nav-link ml-3" href="/addStock">Add Stock</a>
           </li>
         </ul>
-            
+        <div class="mr-5"> 
+        	<c:if test = "${pageContext.request.userPrincipal.name != null}">
+      	<form id="logoutForm" method="POST" action="${contextPath}/logout">
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+        </form>
+
+        <p class="d-inline-block">Welcome ${pageContext.request.userPrincipal.name} | </p><a class="ml-2 d-inline-block btn btn-primary text-white" onclick="document.forms['logoutForm'].submit()">Logout</a>
+      </c:if>
+        </div>
       </nav>
      </header>
      <main class="container">

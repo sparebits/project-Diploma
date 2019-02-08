@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 <html lang="en">
 <head>
     <!-- Required meta tags -->
@@ -31,12 +32,22 @@
           </li>
         </ul> 
         <div class="mr-5">
-          <form class="text-center" action="placeholder.jsp" method="post">
+        <c:if test = "${pageContext.request.userPrincipal.name == null}">
+         <form class="text-center" action="${contextPath}/login" method="POST">
             <input type="text" name="username" placeholder="Email">
             <input type="password" name="password" placeholder="Password">
+             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
             <button class="btn btn-primary" type="submit" name="login-submit">Login</button>
             <a href="signup"><button class="btn btn-secondary" type="button">Signup</button></a>
             </form>
+      </c:if>
+      <c:if test = "${pageContext.request.userPrincipal.name != null}">
+      	<form id="logoutForm" method="POST" action="${contextPath}/logout">
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+        </form>
+
+        <p class="d-inline-block">Welcome ${pageContext.request.userPrincipal.name} | </p><a class="ml-2 d-inline-block btn btn-primary text-white" onclick="document.forms['logoutForm'].submit()">Logout</a>
+      </c:if>
         </div>
       </nav>
      </header>

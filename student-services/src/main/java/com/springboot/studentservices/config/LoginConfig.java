@@ -43,7 +43,7 @@ public class LoginConfig extends WebSecurityConfigurerAdapter {
 	    	// that require login
 	        http
 	                .authorizeRequests()
-	                    .antMatchers("/","/welcome","/signup","/addCompany","/css/**","/js/**","/img/**","/addStock","/addStockResult").permitAll()
+	                    .antMatchers("/","/welcome","/signup","/addCompany","/css/**","/js/**","/img/**").permitAll()
 	                    .anyRequest().authenticated()
 	                    .and()
 	                .formLogin()

@@ -30,19 +30,40 @@
            <a class="nav-link ml-3" href="/addStock">Add Stock</a>
           </li>
         </ul>
-        <div class="mr-5">
-          <form class="text-center" action="placeholder.jsp" method="post">
-            <input type="text" name="username" placeholder="Email">
-            <input type="password" name="password" placeholder="Password">
-            <button class="btn btn-primary" type="submit" name="login-submit">Login</button>
-          </form>
-        </div> 
+        <div class="mr-5"> 
+        	<c:if test = "${pageContext.request.userPrincipal.name != null}">
+      	<form id="logoutForm" method="POST" action="${contextPath}/logout">
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+        </form>
+
+        <p class="d-inline-block">Welcome ${pageContext.request.userPrincipal.name} | </p><a class="ml-2 d-inline-block btn btn-primary text-white" onclick="document.forms['logoutForm'].submit()">Logout</a>
+      </c:if>
+        </div>
       </nav>
      </header>
      <main class="container">
       <div class="row">
         <div class="col text-center mt-2">
-            ${companiesInfo}
+         	<table class="table">
+         	<tr>
+         		<th>Company ID</th>
+         		<th>Company Name</th>
+         		<th>Bulstat</th>
+         		<th>Company Location</th>
+         		<th>Company Phone Number</th>
+         		<th>Company Email</th>
+         	</tr>
+         		<c:forEach var = "compInfo" items="${companiesInfo}">
+         			<tr>
+         				<td>${compInfo.id}</td>
+         				<td>${compInfo.companyName}</td>
+         				<td>${compInfo.bulstat}</td>
+         				<td>${compInfo.location}</td>
+         				<td>${compInfo.phoneNumber}</td>
+         				<td>${compInfo.email}</td>
+         			</tr>
+      			</c:forEach>
+         	</table>
         </div>
       </div>
      </main>
