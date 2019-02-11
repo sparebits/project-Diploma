@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 <html lang="en">
 <head>
@@ -96,6 +97,9 @@
         </div>
      	</div>
      </div>
+    <sec:authorize access="hasRole('ADMIN')">
+    Manage Users
+</sec:authorize>
      </main>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->

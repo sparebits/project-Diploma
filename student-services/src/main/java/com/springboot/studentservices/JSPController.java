@@ -1,6 +1,8 @@
 package com.springboot.studentservices;
 
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import javax.validation.Valid;
 
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.springboot.studentservices.entities.Companies;
+import com.springboot.studentservices.entities.Role;
 import com.springboot.studentservices.entities.Stock;
 import com.springboot.studentservices.entities.User;
 import com.springboot.studentservices.repositories.CompaniesRepository;
@@ -88,6 +91,14 @@ public class JSPController {
 			}
 			// Create a new user 
 			User user = new User();
+			// create a new user roles set
+			Set<Role> roles = new HashSet<Role>();
+			// Create a new role for the user ---> this will be a USER Role
+			// In the future, a separate ADMIN role registration page may be developed
+			Role role = new Role();
+			role.setName("USER");
+			// add this to the set
+			roles.add(role);
 	        // Set password to its hashed equivalent
 	        // for storage in the database
 			String encPass = encoder.encode(company.getPassword());
@@ -96,8 +107,11 @@ public class JSPController {
 	        company.setUser(user);
 	        user.setPassword(encPass);
 	        user.setUsername(company.getEmail());
+	        user.setRoles(roles);
 	        userRepo.save(user);
 	        companyRepo.save(company);
+	        // Save all attached user roles to Role table
+	        roleRepo.saveAll(roles);
 	        model.addAttribute("status","<span class='text-capitalize text-success mt-2'>Registration successful!</span>");
 	        // Used to reset the form 
 	        model.addAttribute("companies",new Companies());

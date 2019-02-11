@@ -42,7 +42,7 @@ public class LoginConfig extends WebSecurityConfigurerAdapter {
 	    	// In the future, /addStock will require login. For testing purposes now it is excluded from the list of pages 
 	    	// that require login
 	        http
-	                .authorizeRequests()
+	                .authorizeRequests().antMatchers("/admin").hasRole("ADMIN")
 	                    .antMatchers("/","/welcome","/signup","/addCompany","/css/**","/js/**","/img/**").permitAll()
 	                    .anyRequest().authenticated()
 	                    .and()

@@ -3,6 +3,9 @@
  */
 package com.springboot.studentservices.userservices;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +13,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.springboot.studentservices.entities.Companies;
+import com.springboot.studentservices.entities.Role;
 import com.springboot.studentservices.entities.Stock;
 import com.springboot.studentservices.entities.User;
 import com.springboot.studentservices.repositories.CompaniesRepository;
@@ -47,11 +51,27 @@ public class InitialService {
         stockRepo.deleteAllInBatch();
         roleRepo.deleteAllInBatch();
         userRepo.deleteAllInBatch();
+        roleRepo.deleteAllInBatch();
 
         // =======================================
         
         // Create a User
         User user = new User();
+        
+        // Create a Set<Role> and a role for the user
+        Set<Role> roles = new HashSet<>();
+        
+        // Create a new user role
+        // This initial account in the system will be an ADMIN account
+        // It will have 2 roles --> USER and ADMIN
+        Role roleOne = new Role();
+        Role roleTwo = new Role();
+        roleOne.setName("USER");
+        roleTwo.setName("ADMIN");
+        
+        // Add both roles to the Set<Role>
+        roles.add(roleOne);
+        roles.add(roleTwo);
         
         // Encode our password
         String encPass = encoder.encode("H545G12");
@@ -76,14 +96,15 @@ public class InitialService {
         
         // Reference our user in the Companies table
         company.setUser(user);
-     
+        
         
         // Add company data to Users table
         user.setUsername(company.getEmail());
         user.setPassword(encPass);
+        user.setRoles(roles);
         userRepo.save(user);
-        
-   
+        roleRepo.saveAll(roles);
+       
         
         // Save the user data to the Company table
         companyRepo.save(company);

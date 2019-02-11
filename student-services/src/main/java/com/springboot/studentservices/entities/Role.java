@@ -28,7 +28,10 @@ public class Role {
         this.name = name;
     }
 
-    @ManyToMany(mappedBy = "roles")
+    @ManyToMany(mappedBy = "roles", cascade = {
+            CascadeType.PERSIST,
+            CascadeType.MERGE
+        })
     public Set<User> getUsers() {
         return users;
     }
